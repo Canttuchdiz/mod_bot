@@ -12,4 +12,4 @@ RUN prisma generate
 
 RUN prisma db push
 
-CMD ["python3", "-m", "rojitzu"]
+CMD ["python3", "-m", "lily"]

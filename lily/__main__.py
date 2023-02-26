@@ -24,7 +24,7 @@ class Bot(commands.Bot):
     # Initializes needed data
     def __init__(self) -> None:
         super().__init__(command_prefix='!', intents=intents,
-                         activity=discord.Activity(name="Rojitzu",
+                         activity=discord.Activity(name="Moderation",
                                                    type=discord.ActivityType.watching),
                          status=discord.Status.dnd)
 
@@ -44,7 +44,7 @@ class Bot(commands.Bot):
 
                 try:
                     if filename.endswith(".py"):
-                        cog = f"rojitzu.cogs.{filename[:-3]}"
+                        cog = f"lily.cogs.{filename[:-3]}"
                         await self.load_extension(cog)
                 except Exception as e:
                     print(f"Failed to load cog {filename}")
@@ -64,7 +64,7 @@ client.remove_command('help')
 async def reload(ctx, cog_name) -> None:
     """Reloads a cog"""
     try:
-        await client.reload_extension(f"zando.cogs.{cog_name}")
+        await client.reload_extension(f"lily.cogs.{cog_name}")
         await ctx.send(f"Reloaded cog: {cog_name}")
     except Exception as e:
         await ctx.send(f"Error: {e}")

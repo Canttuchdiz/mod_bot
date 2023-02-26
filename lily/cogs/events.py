@@ -2,8 +2,8 @@ import asyncio
 import discord
 from discord import Member, User, Guild, AuditLogEntry
 from discord.ext import commands
-from rojitzu.models.infractions import InfractionManager, InfractionType
-from rojitzu.utils.extentsions import PrismaExt
+from lily.models.infractions import InfractionManager, InfractionType
+from lily.utils.extentsions import PrismaExt
 from typing import Union
 import itertools
 import traceback

@@ -3,7 +3,7 @@ import discord
 from discord import User, Member
 from discord.ext import commands
 from dataclasses import dataclass
-from rojitzu.utils.extentsions import PrismaExt
+from lily.utils.extentsions import PrismaExt
 from typing import Union, List
 from enum import Enum
 
