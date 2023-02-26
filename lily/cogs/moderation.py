@@ -29,14 +29,14 @@ class Moderation(commands.Cog):
     @app_commands.command(name="infractions", description="Lists user infractions")
     @app_commands.autocomplete(infraction=infraction_autocomplete)
     async def infractions(self, interaction: Interaction, user: Union[User, Member], infraction: str) -> None:
-        warns = await self.infraction_manager.list_infractions(InfractionType.WARN, user)
-        if not warns:
-            embed = await UtilMethods.embedify("Warnings", f"{user.name} has no warnings", Color.blurple())
+        infractions = await self.infraction_manager.list_infractions(InfractionType(infraction), user)
+        if not infractions:
+            embed = await UtilMethods.embedify("Infractions", f"{user.name} has no {infraction}s", Color.blurple())
         else:
-            embed = Embed(title="Warnings", color=Color.blue())
-            for i, warn in enumerate(warns):
-                embed.add_field(name=f"Warning {i + 1}", value=f"Moderator: ``{warn.target.name}``\nWarned: "
-                                                               f"``{warn.infractor.name}``\nReason: **{warn.reason}**")
+            embed = Embed(title="Infractions", color=Color.blue())
+            for i, inf in enumerate(infractions):
+                embed.add_field(name=f"{infraction} {i + 1}", value=f"Moderator: ``{inf.target.name}``\nTarget: "
+                                                               f"``{inf.infractor.name}``\nReason: **{inf.reason}**")
         await interaction.response.send_message(embed=embed)
 
 
