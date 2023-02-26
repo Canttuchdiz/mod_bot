@@ -45,10 +45,16 @@ class InfractionManager:
             where={
                 "type": infraction_type.value,
                 "targetid": target.id
+            },
+            order={
+                'created_at': 'asc'
             }
         )
         return [Infraction(infraction_type, self.client.get_user(infraction.infractorid),
                            target, infraction.reason) for infraction in infractions]
+
+    # async def remove_infraction(self, infraction_type: InfractionType, target: Union[User, Member]) -> Infraction:
+    #     pass
 
 
 

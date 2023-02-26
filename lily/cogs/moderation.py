@@ -10,6 +10,7 @@ from typing import Union, List
 
 
 class Moderation(commands.Cog):
+    group = app_commands.Group(name="infraction", description="Infraction commands")
 
     def __init__(self, bot: commands.Bot) -> None:
         self.client = bot
@@ -19,14 +20,15 @@ class Moderation(commands.Cog):
         self.infraction_manager = InfractionManager(self.client, self.prisma)
 
     async def infraction_autocomplete(self, interaction: Interaction, current: str) -> List[app_commands.Choice]:
-        return [app_commands.Choice(name=infraction_type.name.capitalize(), value=infraction_type.value) for infraction_type in InfractionType]
+        return [app_commands.Choice(name=infraction_type.value.capitalize(), value=infraction_type.value) for
+                infraction_type in InfractionType]
 
     @app_commands.command(name="warn", description="Warns a member")
     async def warn(self, interaction: Interaction, target: Union[User, Member], reason: str) -> None:
         await self.infraction_manager.create_infraction(InfractionType.WARN, interaction.user, target, reason)
         await interaction.response.send_message(f"{target.name} has been warned", ephemeral=True)
 
-    @app_commands.command(name="infractions", description="Lists user infractions")
+    @group.command(name="list", description="Lists user infractions")
     @app_commands.autocomplete(infraction=infraction_autocomplete)
     async def infractions(self, interaction: Interaction, user: Union[User, Member], infraction: str) -> None:
         infractions = await self.infraction_manager.list_infractions(InfractionType(infraction), user)
@@ -35,10 +37,15 @@ class Moderation(commands.Cog):
         else:
             embed = Embed(title="Infractions", color=Color.blue())
             for i, inf in enumerate(infractions):
-                embed.add_field(name=f"{infraction} {i + 1}", value=f"Moderator: ``{inf.target.name}``\nTarget: "
-                                                               f"``{inf.infractor.name}``\nReason: **{inf.reason}**")
+                embed.add_field(name=f"{infraction.capitalize()} {i + 1}",
+                                value=f"Moderator: ``{inf.target.name}``\nTarget: "
+                                      f"``{inf.infractor.name}``\nReason: **{inf.reason}**")
         await interaction.response.send_message(embed=embed)
 
+    # @group.command(name="remove", description="Remove user infraction")
+    # @app_commands.autocomplete(infraction=infraction_autocomplete)
+    # async def remove(self, interaction: Interaction, user: Union[User, Member], infraction: str) -> None:
+    #     pass
 
 
 async def setup(bot):
