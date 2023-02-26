@@ -25,7 +25,7 @@ docker compose up -d --build
 In any text channel, the owner must run ``!sync`` the first time you run
 your bot.
 
-For any configuration use the ``config.py`` file
+For any configuration use the ``config.py`` file.
 
 ## Contributing
 
