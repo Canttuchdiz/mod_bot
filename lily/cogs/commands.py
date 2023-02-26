@@ -1,6 +1,6 @@
 from typing import *
 import discord
-from discord import app_commands
+from discord import app_commands, Interaction
 from discord.ext import commands
 
 
@@ -23,6 +23,11 @@ class Commands(commands.Cog):
     @commands.command(aliases=['guilds'])
     async def guildcount(self, ctx) -> None:
         await ctx.send(f"{len(self.client.guilds)}")
+
+    @app_commands.command(name="purge", description="Deletes messages")
+    async def purge(self, interaction: Interaction, count: int) -> None:
+        await interaction.channel.purge(limit=count)
+        await interaction.response.send_message("Purged!", ephemeral=True)
 
     # def exception_handler(exctype, value, traceback):
     #     if exctype == InvalidTable:

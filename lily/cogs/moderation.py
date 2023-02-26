@@ -40,6 +40,7 @@ class Moderation(commands.Cog):
                 embed.add_field(name=f"{infraction.capitalize()} {i + 1}",
                                 value=f"Moderator: ``{inf.target.name}``\nTarget: "
                                       f"``{inf.infractor.name}``\nReason: **{inf.reason}**")
+            embed.set_footer(text=f"ID · {infractions[0].target.id}")
         await interaction.response.send_message(embed=embed)
 
     # @group.command(name="remove", description="Remove user infraction")
