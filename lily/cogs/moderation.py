@@ -49,7 +49,7 @@ class Moderation(commands.Cog):
             embed = await self.infraction_manager.infractions_embed(user, infractions, infraction)
             await interaction.response.send_message(embed=embed, view=view, ephemeral=True)
         except HTTPException as e:
-            embed = Embed(title="Important", description=f"{user.name} does not have any infractions",
+            embed = Embed(title="Important", description=f"{user.name} does not have any {infraction}s",
                           color=Color.red())
             await interaction.response.send_message(embed=embed, ephemeral=True)
 
