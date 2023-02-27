@@ -5,7 +5,6 @@ Lily Bot is a Discord Bot dedicated to moderation.
 ## Installation
 
 Get the repository from [github](https://github.com/) to install this bot.
-
 ```bash
 git clone https://github.com/Canttuchdiz/lily_bot.git
 ```
