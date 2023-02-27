@@ -35,7 +35,9 @@ class Moderation(commands.Cog):
             args.append(InfractionType(infraction))
         infractions = await self.infraction_manager.list_infractions(*args)
         if not infractions:
-            embed = await UtilMethods.embedify("Infractions", f"{user.name} has no {infraction}s", Color.blurple())
+            embed = await UtilMethods.embedify("Infractions", f"{user.name} has no "
+                                                              f"{infraction if infraction else 'infraction'}s",
+                                               Color.blurple())
         else:
             embed = Embed(title="Infractions", color=Color.blue())
             for i, inf in enumerate(infractions):
