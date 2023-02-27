@@ -2,9 +2,10 @@ from pathlib import Path
 from dotenv import load_dotenv
 import discord
 from discord.ext import commands
-import os
+from lily.utils.config import Config
 import traceback
 import sys
+import os
 
 MY_DIR = Path(__file__).parent
 
@@ -24,7 +25,7 @@ class Bot(commands.Bot):
     # Initializes needed data
     def __init__(self) -> None:
         super().__init__(command_prefix='!', intents=intents,
-                         activity=discord.Activity(name="Moderation",
+                         activity=discord.Activity(name=Config.ACTIVITY,
                                                    type=discord.ActivityType.watching),
                          status=discord.Status.dnd)
 
