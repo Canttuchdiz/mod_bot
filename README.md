@@ -20,6 +20,11 @@ Build and run the bot by running:
 docker compose up -d --build
 ```
 
+Every once and awhile run:
+```bash
+docker system prune -a
+```
+
 ## Usage
 
 In any text channel, the owner must run ``!sync`` the first time you run
