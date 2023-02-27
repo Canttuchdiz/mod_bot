@@ -6,7 +6,7 @@ from discord.ext import commands
 from lily.utils.extentsions import PrismaExt
 from lily.utils.utilities import UtilMethods
 from lily.models.infractions import InfractionManager, InfractionType
-from typing import Union, List
+from typing import Union, List, Optional
 
 
 class Moderation(commands.Cog):
@@ -30,16 +30,19 @@ class Moderation(commands.Cog):
 
     @group.command(name="list", description="Lists user infractions")
     @app_commands.autocomplete(infraction=infraction_autocomplete)
-    async def infractions(self, interaction: Interaction, user: Union[User, Member], infraction: str) -> None:
-        infractions = await self.infraction_manager.list_infractions(InfractionType(infraction), user)
+    async def infractions(self, interaction: Interaction, user: Union[User, Member], infraction: Optional[str]) -> None:
+        if infraction:
+            infractions = await self.infraction_manager.list_infractions(user, InfractionType(infraction))
+        else:
+            infractions = await self.infraction_manager.list_infractions(user)
         if not infractions:
             embed = await UtilMethods.embedify("Infractions", f"{user.name} has no {infraction}s", Color.blurple())
         else:
             embed = Embed(title="Infractions", color=Color.blue())
             for i, inf in enumerate(infractions):
-                embed.add_field(name=f"{infraction.capitalize()} {i + 1}",
+                embed.add_field(name=f"{inf.type.value.capitalize()} {i + 1}",
                                 value=f"Moderator: ``{inf.target.name}``\nTarget: "
-                                      f"``{inf.infractor.name}``\nReason: **{inf.reason}**")
+                                      f"``{inf.infractor.name}``\nReason: **{inf.reason}**\nID: *{inf.id}*")
             embed.set_footer(text=f"ID · {infractions[0].target.id}")
         await interaction.response.send_message(embed=embed)
 
