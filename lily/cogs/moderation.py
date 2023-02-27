@@ -20,8 +20,7 @@ class Moderation(commands.Cog):
         self.infraction_manager = InfractionManager(self.client, self.prisma)
 
     async def infraction_autocomplete(self, interaction: Interaction, current: str) -> List[app_commands.Choice]:
-        return [app_commands.Choice(name=infraction_type.value.capitalize(), value=infraction_type.value) for
-                infraction_type in InfractionType]
+        return [app_commands.Choice(name=infraction_type.value.capitalize(), value=infraction_type.value) for infraction_type in InfractionType if current.lower() in infraction_type.value.lower()]
 
     @app_commands.command(name="warn", description="Warns a member")
     async def warn(self, interaction: Interaction, target: Union[User, Member], reason: str) -> None:
@@ -31,10 +30,10 @@ class Moderation(commands.Cog):
     @group.command(name="list", description="Lists user infractions")
     @app_commands.autocomplete(infraction=infraction_autocomplete)
     async def infractions(self, interaction: Interaction, user: Union[User, Member], infraction: Optional[str]) -> None:
+        args = [user]
         if infraction:
-            infractions = await self.infraction_manager.list_infractions(user, InfractionType(infraction))
-        else:
-            infractions = await self.infraction_manager.list_infractions(user)
+            args.append(InfractionType(infraction))
+        infractions = await self.infraction_manager.list_infractions(*args)
         if not infractions:
             embed = await UtilMethods.embedify("Infractions", f"{user.name} has no {infraction}s", Color.blurple())
         else:
