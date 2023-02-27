@@ -27,7 +27,7 @@ docker system prune -a
 ## Usage
 
 The built in ``/ban``, ``/kick``, and ``/timeout`` are logged as an infraction,
-as well as the bot's ``/warn``. List of commands show up when you do ``/``.
+as well as the bot's ``/warn``. The list of commands show up when you do ``/``.
 
 ## Notes
 
